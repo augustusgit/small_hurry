@@ -137,8 +137,10 @@ Widget appBarTitleWidget(context, String title, {Color? color, Color? textColor}
 
 AppBar appBar(BuildContext context, String title, {List<Widget>? actions, bool showBack = true, Color? color, Color? iconColor, Color? textColor}) {
   return AppBar(
-    automaticallyImplyLeading: false,
+    centerTitle: true,
+    // automaticallyImplyLeading: false,
     backgroundColor: color ?? appStore.appBarColor,
+    titleTextStyle: const TextStyle(color: Colors.white),
     leading: showBack
         ? IconButton(
             onPressed: () {
@@ -148,6 +150,23 @@ AppBar appBar(BuildContext context, String title, {List<Widget>? actions, bool s
           )
         : null,
     title: appBarTitleWidget(context, title, textColor: textColor, color: color),
+    actions: actions,
+  );
+}
+
+AppBar customAppBar(BuildContext context, String title, {List<Widget>? actions, bool showBack = true, Color? color, Color? iconColor, Color? textColor}) {
+  return AppBar(
+    centerTitle: true,
+    title: Text(title, style: TextStyle(color: appLight_parrot_green),),
+    backgroundColor: Theme.of(context).primaryColor,
+    leading: showBack
+        ? IconButton(
+      onPressed: () {
+        finish(context);
+      },
+      icon: Icon(Icons.arrow_back, color: appStore.isDarkModeOn ? white : appLight_parrot_green),
+    )
+        : null,
     actions: actions,
   );
 }

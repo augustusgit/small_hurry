@@ -85,6 +85,8 @@ flutter:
     - images/shophop/img/products/dress/
     - images/shophop/img/products/banners/
     - images/shophop/img/products/decor/
+    - images/LikeButton/image/
+    - images/country_flag/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

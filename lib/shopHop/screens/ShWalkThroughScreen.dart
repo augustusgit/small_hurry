@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:small_hurry/main/utils/AppWidget.dart';
@@ -26,7 +27,7 @@ class _ShWalkThroughScreenState extends State<ShWalkThroughScreen> {
     "Shop the most trending fashion on the biggest shopping website",
     "Grab the best seller pieces at bargain prices."
   ];
-  var position = 0;
+  var position = 1;
 
   @override
   void dispose() {
@@ -44,89 +45,78 @@ class _ShWalkThroughScreenState extends State<ShWalkThroughScreen> {
         child: Container(
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.fromLTRB(spacing_large, spacing_large, spacing_large, spacing_standard_new),
-                  child: Column(
-                    children: <Widget>[
-                      text(mHeadingList[position], textColor: sh_textColorPrimary, fontSize: textSizeLarge, fontFamily: fontBold),
-                      SizedBox(height: 10.0),
-                      text(mSubHeadingList[position], fontSize: textSizeLargeMedium, maxLine: 3, isCentered: true),
-                    ],
+            child: Stack(
+              children: [
+                CarouselSlider(
+                  options: CarouselOptions(
+                    height: MediaQuery.of(context).size.height,
+                    autoPlay: true,
                   ),
+                  items: mSliderList.map(
+                        (item) => Container(
+                      child: Center(
+                        child: Image.asset(
+                          item,
+                          fit: BoxFit.fill,
+                          width: width,
+                          height: MediaQuery.of(context).size.height,
+                        ),
+                      ),
+                    ),
+                  )
+                      .toList(),
                 ),
-                ShCarouselSlider(
-                  viewportFraction: 0.8,
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  enlargeCenterPage: true,
-                  scrollDirection: Axis.horizontal,
-                  items: mSliderList.map((slider) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                          width: width * 0.9,
-                          //height: 400,
-                          //height: width + width * 0.1,
-                          decoration: BoxDecoration(
-                            color: sh_white,
-                            borderRadius: BorderRadius.all(Radius.circular(spacing_standard)),
-                            boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.4), spreadRadius: spacing_control_half, blurRadius: 10, offset: Offset(1, 3))],
+        Align(
+            alignment: Alignment.bottomCenter,
+            child: Positioned(
+              bottom: -width * 0.2,
+              right: -width * 0.2,
+              child: DotsIndicator(
+                dotsCount: 3,
+                position: position,
+                decorator: DotsDecorator(color: sh_view_color, activeColor: sh_colorPrimary, activeSize: const Size.square(14.0), spacing: EdgeInsets.all(spacing_control)),
+              ),
+            ),
+          ),
+
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.all(spacing_large),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: MaterialButton(
+                            padding: EdgeInsets.all(spacing_standard),
+                            child: Text(sh_text_start_to_shopping, style: TextStyle(fontSize: 18)),
+                            textColor: sh_white,
+                            shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(40.0)),
+                            color: sh_colorPrimary,
+                            onPressed: () {
+                              finish(context);
+                              ShHomeScreen().launch(context);
+                            },
                           ),
-                          margin: EdgeInsets.all(spacing_standard_new),
-                          child: Center(
-                              child: CachedNetworkImage(
-                                  placeholder: placeholderWidgetFn() as Widget Function(BuildContext, String)?, imageUrl: slider, width: MediaQuery.of(context).size.width, fit: BoxFit.cover)),
-                        );
-                      },
-                    );
-                  }).toList(),
-                  onPageChanged: (index) {
-                    position = index;
-                    setState(() {});
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(spacing_large),
-                  child: Column(
-                    children: <Widget>[
-                      DotsIndicator(
-                        dotsCount: 3,
-                        position: position,
-                        decorator: DotsDecorator(color: sh_view_color, activeColor: sh_colorPrimary, activeSize: const Size.square(14.0), spacing: EdgeInsets.all(spacing_control)),
-                      ),
-                      SizedBox(height: spacing_standard),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: MaterialButton(
-                          padding: EdgeInsets.all(spacing_standard),
-                          child: Text(sh_text_start_to_shopping, style: TextStyle(fontSize: 18)),
-                          textColor: sh_white,
-                          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(40.0)),
-                          color: sh_colorPrimary,
-                          onPressed: () {
-                            finish(context);
-                            ShHomeScreen().launch(context);
+                        ),
+                        SizedBox(height: spacing_standard),
+                        InkWell(
+                          onTap: () {
+                            ShSignIn().launch(context);
                           },
-                        ),
-                      ),
-                      SizedBox(height: spacing_standard),
-                      InkWell(
-                        onTap: () {
-                          ShSignIn().launch(context);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            text(sh_lbl_already_have_a_account),
-                            text(sh_lbl_sign_in, textColor: sh_textColorPrimary, fontFamily: fontBold),
-                          ],
-                        ),
-                      )
-                    ],
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              text(sh_lbl_already_have_a_account),
+                              text(sh_lbl_sign_in, textColor: sh_textColorPrimary, fontFamily: fontBold),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
+
                 ),
               ],
             ),
@@ -150,8 +140,8 @@ class ShSliderWidget extends StatelessWidget {
     final Size cardSize = Size(width, width / 1.8);
 
     return ShCarouselSlider(
-      viewportFraction: 0.9,
-      height: cardSize.height,
+      viewportFraction: 1.0,
+      height: MediaQuery.of(context).size.height, //cardSize.height,
       enlargeCenterPage: true,
       scrollDirection: Axis.horizontal,
       items: mSliderList.map((slider) {
@@ -159,7 +149,7 @@ class ShSliderWidget extends StatelessWidget {
           builder: (BuildContext context) {
             return Container(
               width: MediaQuery.of(context).size.width,
-              height: cardSize.height,
+              height: MediaQuery.of(context).size.height,
               margin: EdgeInsets.symmetric(horizontal: 8.0),
               child: Card(
                 semanticContainer: true,
@@ -167,12 +157,8 @@ class ShSliderWidget extends StatelessWidget {
                 elevation: 0,
                 margin: EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                child: CachedNetworkImage(
-                    placeholder: placeholderWidgetFn() as Widget Function(BuildContext, String)?,
-                    imageUrl: slider,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width,
-                    height: cardSize.height),
+                child: Image.asset(
+                  slider, width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height, fit: BoxFit.cover)
               ),
             );
           },
