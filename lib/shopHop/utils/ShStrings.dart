@@ -1,6 +1,7 @@
 const sh_app_name = "Watch";
 const sh_lbl_sign_in = "Login";
 const sh_lbl_sign_up = " Register";
+const sh_lbl_delivery_address = " Select Delivery Address";
 const sh_lbl_sign_in_with = "Login with";
 const sh_lbl_forgot = "Forgot ?";
 const sh_lbl_already_have_a_account = "Do you have an account?";

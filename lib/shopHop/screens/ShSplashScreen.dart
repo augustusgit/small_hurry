@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:small_hurry/main/utils/AppWidget.dart';
 import 'package:small_hurry/shopHop/screens/ShHomeScreen.dart';
+import 'package:small_hurry/shopHop/screens/Shonboarding_screen.dart';
 import 'package:small_hurry/shopHop/utils/ShColors.dart';
 import 'package:small_hurry/shopHop/utils/ShImages.dart';
 
@@ -29,8 +30,8 @@ class ShSplashScreenState extends State<ShSplashScreen> {
 
   void navigationPage() {
     finish(context);
-    // ShOnboardingScreen().launch(context);
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ShHomeScreen()));
+    ShOnboardingScreen().launch(context);
+    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ShHomeScreen()));
   }
 
   @override

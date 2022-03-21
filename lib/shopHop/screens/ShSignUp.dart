@@ -6,6 +6,7 @@ import 'package:small_hurry/main.dart';
 import 'package:small_hurry/main/utils/AppColors.dart';
 import 'package:small_hurry/main/utils/AppWidget.dart';
 import 'package:small_hurry/main/utils/codePicker/country_code_picker.dart';
+import 'package:small_hurry/shopHop/screens/ShHomeScreen.dart';
 import 'package:small_hurry/shopHop/screens/ShSignIn.dart';
 import 'package:small_hurry/shopHop/utils/ShColors.dart';
 import 'package:small_hurry/shopHop/utils/ShConstant.dart';
@@ -193,7 +194,7 @@ class ShSignUpState extends State<ShSignUp> {
                     textColor: sh_white,
                     shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
                     color: sh_colorPrimary,
-                    onPressed: () => {},
+                    onPressed: () => {ShHomeScreen().launch(context)},
                   ),
                 ),
                 SizedBox(
@@ -222,7 +223,7 @@ class ShSignUpState extends State<ShSignUp> {
                         style: ElevatedButton.styleFrom(
                             primary: sh_semi_white,
                             textStyle: TextStyle(color: sh_colorPrimary,)),
-                        onPressed: () {},
+                        onPressed: () {ShHomeScreen().launch(context);},
                         icon: Icon( // <-- Icon
                           Icons.android_rounded,
                           size: 40.0,
@@ -231,7 +232,7 @@ class ShSignUpState extends State<ShSignUp> {
                         label: Text('Google', style: TextStyle(color: sh_colorPrimary),), // <-- Text
                       ),
                       ElevatedButton.icon(
-                        onPressed: () {},
+                        onPressed: () {ShHomeScreen().launch(context);},
                         icon: Icon( // <-- Icon
                           Icons.facebook,
                           size: 40.0,

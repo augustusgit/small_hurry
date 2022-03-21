@@ -8,7 +8,19 @@
     "name": "Men",
     "parent": 0,
     "slug": "men",
-    "image": "images/shophop/ic_men.png"
+    "image": "images/shophop/ic_men.jpg"
+  },
+  {
+    "count": 13,
+    "description": "",
+    "id": 21,
+    "isSelected": false,
+    "menu_order": 0,
+    "name": "Decor",
+    "parent": 45,
+    "slug": "decor",
+    "image": "images/shophop/ic_decor.jpg"
+
   },
   {
     "count": 6,
@@ -19,7 +31,7 @@
     "name": "Women",
     "parent": 16,
     "slug": "women",
-    "image": "images/shophop/ic_woman.png"
+    "image": "images/shophop/ic_woman.jpg"
 
   },
   {
@@ -31,8 +43,19 @@
     "name": "Baby & Kids",
     "parent": 0,
     "slug": "Kids",
-    "image": "images/shophop/ic_kids.png"
+    "image": "images/shophop/ic_kids.jpg"
 
+  },
+  {
+    "count": 26,
+    "description": "",
+    "id": 45,
+    "isSelected": false,
+    "menu_order": 0,
+    "name": "Men",
+    "parent": 0,
+    "slug": "men",
+    "image": "images/shophop/ic_men.jpg"
   },
   {
     "count": 14,
@@ -43,7 +66,7 @@
     "name": "Bags",
     "parent": 0,
     "slug": "Bags",
-    "image": "images/shophop/ic_bag.png"
+    "image": "images/shophop/ic_bag.jpg"
 
   },
   {
@@ -55,7 +78,7 @@
     "name": "Decor",
     "parent": 45,
     "slug": "decor",
-    "image": "images/shophop/ic_decor.png"
+    "image": "images/shophop/ic_decor.jpg"
 
   },
   {
@@ -67,7 +90,7 @@
     "name": "Sport",
     "parent": 0,
     "slug": "Sport",
-    "image": "images/shophop/ic_sports.png"
+    "image": "images/shophop/ic_sports.jpg"
 
   }
 ]

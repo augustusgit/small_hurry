@@ -11,6 +11,7 @@ const iconColorSecondary = Color(0xFFA8ABAD);
 const appLayout_background = Color(0xFFf8f8f8);
 const appWhite = Color(0xFFFFFFFF);
 const appLight_purple = Color(0xFFdee1ff);
+const appLight_yellow = Color(0xffff8b00);
 const appLight_orange = Color(0xFFffddd5);
 const appLight_parrot_green = Color(0xFFb4ef93);
 const appIconTintCherry = Color(0xFFffddd5);

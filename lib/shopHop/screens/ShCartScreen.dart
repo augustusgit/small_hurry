@@ -17,10 +17,23 @@ class ShCartScreenState extends State<ShCartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: sh_white,
-        title: text(sh_lbl_account, textColor: sh_textColorPrimary, fontSize: textSizeNormal, fontFamily: fontMedium),
-        iconTheme: IconThemeData(color: sh_textColorPrimary),
+      appBar: customAppBar(
+        context,
+        "Cart",
+        showBack: true,
+        // actions: [
+        //   Tooltip(
+        //     message: 'Dark Mode',
+        //     child: Switch(
+        //       value: appStore.isDarkModeOn,
+        //       activeColor: appColorPrimary,
+        //       onChanged: (s) {
+        //         appStore.toggleDarkMode(value: s);
+        //         setState(() {});
+        //       },
+        //     ),
+        //   ),
+        // ],
       ),
       body: ShCartFragment(),
     );

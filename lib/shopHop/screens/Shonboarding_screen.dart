@@ -140,7 +140,7 @@ class _ShOnboardingScreenState extends State<ShOnboardingScreen> {
                           shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(5.0)),
                           color: sh_colorPrimary,
                           onPressed: () {
-                            finish(context);
+                            // finish(context);
                             ShSignUp().launch(context);
                           },
                         ),

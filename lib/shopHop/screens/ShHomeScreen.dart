@@ -4,18 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:small_hurry/main.dart';
+import 'package:small_hurry/main/utils/AppColors.dart';
 import 'package:small_hurry/main/utils/AppWidget.dart';
 import 'package:small_hurry/shopHop/models/ShCategory.dart';
-import 'package:small_hurry/shopHop/screens/ShAccountScreen.dart';
-import 'package:small_hurry/shopHop/screens/ShCartFragment.dart';
-import 'package:small_hurry/shopHop/screens/ShContactUsScreen.dart';
-import 'package:small_hurry/shopHop/screens/ShFAQScreen.dart';
+import 'package:small_hurry/shopHop/screens/ShCartScreen.dart';
 import 'package:small_hurry/shopHop/screens/ShHomeFragment.dart';
-import 'package:small_hurry/shopHop/screens/ShOrderListScreen.dart';
+import 'package:small_hurry/shopHop/screens/ShOffersScreen.dart';
 import 'package:small_hurry/shopHop/screens/ShProfileFragment.dart';
 import 'package:small_hurry/shopHop/screens/ShSearchScreen.dart';
 import 'package:small_hurry/shopHop/screens/ShSettingsScreen.dart';
-import 'package:small_hurry/shopHop/screens/ShWishlistFragment.dart';
 import 'package:small_hurry/shopHop/utils/ShColors.dart';
 import 'package:small_hurry/shopHop/utils/ShConstant.dart';
 import 'package:small_hurry/shopHop/utils/ShExtension.dart';
@@ -34,8 +32,9 @@ class ShHomeScreen extends StatefulWidget {
 class ShHomeScreenState extends State<ShHomeScreen> {
   List<ShCategory> list = [];
   var homeFragment = ShHomeFragment();
-  var cartFragment = ShCartFragment();
-  var wishlistFragment = ShWishlistFragment();
+  var searchFragment = ShSearchScreen(); // ShCartFragment();
+ // var wishlistFragment = ShWishlistFragment();
+  var promoFragment = ShOffersScreen();
   var profileFragment = ShProfileFragment();
   late var fragments;
   var selectedTab = 0;
@@ -43,7 +42,7 @@ class ShHomeScreenState extends State<ShHomeScreen> {
   @override
   void initState() {
     super.initState();
-    fragments = [homeFragment, wishlistFragment, cartFragment, profileFragment];
+    fragments = [homeFragment, searchFragment, profileFragment, promoFragment];
     fetchData();
   }
 
@@ -67,21 +66,38 @@ class ShHomeScreenState extends State<ShHomeScreen> {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
-    var title = "Home";
+    var title = "Small Hurry";
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: sh_white,
-        iconTheme: IconThemeData(color: sh_textColorPrimary),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              ShSearchScreen().launch(context);
-            },
-          )
-        ],
-        title: text(title, textColor: sh_textColorPrimary, fontFamily: fontBold, fontSize: textSizeNormal),
+      appBar: customAppBar(
+        context,
+        "Small Hurry",
+        showBack: false,
+        // actions: [
+        //   Tooltip(
+        //     message: 'Dark Mode',
+        //     child: Switch(
+        //       value: appStore.isDarkModeOn,
+        //       activeColor: appColorPrimary,
+        //       onChanged: (s) {
+        //         appStore.toggleDarkMode(value: s);
+        //         setState(() {});
+        //       },
+        //     ),
+        //   ),
+        // ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(bottom: 18.0),
+        child: FloatingActionButton(
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          backgroundColor: appColorPrimary,
+          onPressed: () { ShCartScreen().launch(context); },
+          tooltip: 'Cart',
+          child: SvgPicture.asset(sh_ic_cart, width: 24, height: 24, color: appDark_parrot_green), // Icon(Icons.add, color: appLight_yellow),
+          elevation: 2.0,
+        ),
       ),
       body: Stack(
         alignment: Alignment.bottomLeft,
@@ -100,9 +116,9 @@ class ShHomeScreenState extends State<ShHomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       tabItem(0, sh_ic_home),
-                      tabItem(1, sh_ic_heart),
-                      tabItem(2, sh_ic_cart),
-                      tabItem(3, sh_user),
+                      tabItem(1, sh_ic_search),
+                      tabItem(2, sh_user),
+                      tabItem(3, sh_ic_gift),
                     ],
                   ),
                 )
@@ -110,147 +126,147 @@ class ShHomeScreenState extends State<ShHomeScreen> {
             ),
           )
         ]),
-      drawer: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.85,
-        height: MediaQuery.of(context).size.height,
-        child: Drawer(
-          elevation: 8,
-          child: SingleChildScrollView(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              color: sh_white,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Center(
-                        child: Padding(
-                            padding: const EdgeInsets.only(top: 60, right: spacing_large),
-                            child: Column(
-                              children: <Widget>[
-                                Card(
-                                  semanticContainer: true,
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  elevation: spacing_standard,
-                                  margin: EdgeInsets.all(spacing_control),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: CircleAvatar(backgroundImage: AssetImage(ic_user), radius: 55),
-                                  ),
-                                ),
-                                SizedBox(height: spacing_middle),
-                                text("Guest User", textColor: sh_textColorPrimary, fontFamily: fontBold, fontSize: textSizeNormal)
-                              ],
-                            )),
-                      ),
-                      Align(alignment: Alignment.topLeft, child: Padding(padding: const EdgeInsets.only(left: spacing_standard_new, top: 30), child: Icon(Icons.clear)))
-                    ],
-                  ),
-                  SizedBox(height: 30),
-                  Container(
-                    color: sh_editText_background,
-                    padding: EdgeInsets.fromLTRB(0, spacing_standard, 0, spacing_standard),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              ShOrderListScreen().launch(context);
-                            },
-                            child: Column(
-                              children: <Widget>[
-                                text("08", textColor: sh_colorPrimary, fontFamily: fontMedium),
-                                SizedBox(height: spacing_control),
-                                text("My Order", textColor: sh_textColorPrimary, fontFamily: fontMedium),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              setState(() {
-                                selectedTab = 1;
-                              });
-                            },
-                            child: Column(
-                              children: <Widget>[
-                                text("07", textColor: sh_colorPrimary, fontFamily: fontMedium),
-                                SizedBox(height: spacing_control),
-                                text("Wishlist", textColor: sh_textColorPrimary, fontFamily: fontMedium),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: list.length,
-                    shrinkWrap: true,
-                    physics: ScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return getDrawerItem(
-                        list[index].image,
-                        list[index].name,
-                        callback: () {
-                          ShSubCategory(category: list[index]).launch(context);
-                        },
-                      );
-                    },
-                  ),
-                  SizedBox(height: 30),
-                  Divider(color: sh_view_color, height: 1),
-                  SizedBox(height: 20),
-                  getDrawerItem(sh_user_placeholder, sh_lbl_account, callback: () {
-                    ShAccountScreen().launch(context);
-
-                    /*bool isWishlist = launchScreen(context, ShAccountScreen.tag) ?? false;
-                    if (isWishlist) {
-                      selectedTab = 1;
-                      setState(() {});
-                    }*/
-                  }),
-                  getDrawerItem(sh_settings, sh_lbl_settings, callback: () {
-                    ShSettingsScreen().launch(context);
-                  }),
-                  SizedBox(height: 20),
-                  getDrawerItem(null, sh_lbl_faq, callback: () {
-                    ShFAQScreen().launch(context);
-                  }),
-                  getDrawerItem(null, sh_lbl_contact_us, callback: () {
-                    ShContactUsScreen().launch(context);
-                  }),
-                  SizedBox(height: 30),
-                  Container(
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: sh_colorPrimary.withOpacity(0.2)),
-                    padding: EdgeInsets.all(24),
-                    child: Column(
-                      children: <Widget>[
-                        Image.asset(ic_app_icon, width: 40),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            text("Shop", textColor: sh_textColorPrimary, fontSize: textSizeMedium, fontFamily: fontBold),
-                            text("hop", textColor: sh_colorPrimary, fontSize: textSizeMedium, fontFamily: fontBold),
-                          ],
-                        ),
-                        text("v 1.0", textColor: sh_textColorPrimary, fontSize: textSizeSmall)
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 30),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+      // drawer: SizedBox(
+      //   width: MediaQuery.of(context).size.width * 0.85,
+      //   height: MediaQuery.of(context).size.height,
+      //   child: Drawer(
+      //     elevation: 8,
+      //     child: SingleChildScrollView(
+      //       child: Container(
+      //         width: MediaQuery.of(context).size.width,
+      //         color: sh_white,
+      //         child: Column(
+      //           mainAxisSize: MainAxisSize.max,
+      //           children: <Widget>[
+      //             Stack(
+      //               children: <Widget>[
+      //                 Center(
+      //                   child: Padding(
+      //                       padding: const EdgeInsets.only(top: 60, right: spacing_large),
+      //                       child: Column(
+      //                         children: <Widget>[
+      //                           Card(
+      //                             semanticContainer: true,
+      //                             clipBehavior: Clip.antiAliasWithSaveLayer,
+      //                             elevation: spacing_standard,
+      //                             margin: EdgeInsets.all(spacing_control),
+      //                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
+      //                             child: Padding(
+      //                               padding: const EdgeInsets.all(4.0),
+      //                               child: CircleAvatar(backgroundImage: AssetImage(ic_user), radius: 55),
+      //                             ),
+      //                           ),
+      //                           SizedBox(height: spacing_middle),
+      //                           text("Guest User", textColor: sh_textColorPrimary, fontFamily: fontBold, fontSize: textSizeNormal)
+      //                         ],
+      //                       )),
+      //                 ),
+      //                 Align(alignment: Alignment.topLeft, child: Padding(padding: const EdgeInsets.only(left: spacing_standard_new, top: 30), child: Icon(Icons.clear)))
+      //               ],
+      //             ),
+      //             SizedBox(height: 30),
+      //             Container(
+      //               color: sh_editText_background,
+      //               padding: EdgeInsets.fromLTRB(0, spacing_standard, 0, spacing_standard),
+      //               child: Row(
+      //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //                 children: <Widget>[
+      //                   Expanded(
+      //                     child: InkWell(
+      //                       onTap: () {
+      //                         ShOrderListScreen().launch(context);
+      //                       },
+      //                       child: Column(
+      //                         children: <Widget>[
+      //                           text("08", textColor: sh_colorPrimary, fontFamily: fontMedium),
+      //                           SizedBox(height: spacing_control),
+      //                           text("My Order", textColor: sh_textColorPrimary, fontFamily: fontMedium),
+      //                         ],
+      //                       ),
+      //                     ),
+      //                   ),
+      //                   Expanded(
+      //                     child: InkWell(
+      //                       onTap: () {
+      //                         Navigator.of(context).pop();
+      //                         setState(() {
+      //                           selectedTab = 1;
+      //                         });
+      //                       },
+      //                       child: Column(
+      //                         children: <Widget>[
+      //                           text("07", textColor: sh_colorPrimary, fontFamily: fontMedium),
+      //                           SizedBox(height: spacing_control),
+      //                           text("Wishlist", textColor: sh_textColorPrimary, fontFamily: fontMedium),
+      //                         ],
+      //                       ),
+      //                     ),
+      //                   ),
+      //                 ],
+      //               ),
+      //             ),
+      //             ListView.builder(
+      //               scrollDirection: Axis.vertical,
+      //               itemCount: list.length,
+      //               shrinkWrap: true,
+      //               physics: ScrollPhysics(),
+      //               itemBuilder: (context, index) {
+      //                 return getDrawerItem(
+      //                   list[index].image,
+      //                   list[index].name,
+      //                   callback: () {
+      //                     ShSubCategory(category: list[index]).launch(context);
+      //                   },
+      //                 );
+      //               },
+      //             ),
+      //             SizedBox(height: 30),
+      //             Divider(color: sh_view_color, height: 1),
+      //             SizedBox(height: 20),
+      //             getDrawerItem(sh_user_placeholder, sh_lbl_account, callback: () {
+      //               ShAccountScreen().launch(context);
+      //
+      //               /*bool isWishlist = launchScreen(context, ShAccountScreen.tag) ?? false;
+      //               if (isWishlist) {
+      //                 selectedTab = 1;
+      //                 setState(() {});
+      //               }*/
+      //             }),
+      //             getDrawerItem(sh_settings, sh_lbl_settings, callback: () {
+      //               ShSettingsScreen().launch(context);
+      //             }),
+      //             SizedBox(height: 20),
+      //             getDrawerItem(null, sh_lbl_faq, callback: () {
+      //               ShFAQScreen().launch(context);
+      //             }),
+      //             getDrawerItem(null, sh_lbl_contact_us, callback: () {
+      //               ShContactUsScreen().launch(context);
+      //             }),
+      //             SizedBox(height: 30),
+      //             Container(
+      //               decoration: BoxDecoration(shape: BoxShape.circle, color: sh_colorPrimary.withOpacity(0.2)),
+      //               padding: EdgeInsets.all(24),
+      //               child: Column(
+      //                 children: <Widget>[
+      //                   Image.asset(ic_app_icon, width: 40),
+      //                   Row(
+      //                     mainAxisAlignment: MainAxisAlignment.center,
+      //                     children: <Widget>[
+      //                       text("Shop", textColor: sh_textColorPrimary, fontSize: textSizeMedium, fontFamily: fontBold),
+      //                       text("hop", textColor: sh_colorPrimary, fontSize: textSizeMedium, fontFamily: fontBold),
+      //                     ],
+      //                   ),
+      //                   text("v 1.0", textColor: sh_textColorPrimary, fontSize: textSizeSmall)
+      //                 ],
+      //               ),
+      //             ),
+      //             SizedBox(height: 30),
+      //           ],
+      //         ),
+      //       ),
+      //     ),
+      //   ),
+      // ),
     );
   }
 

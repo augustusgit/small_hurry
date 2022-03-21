@@ -2,15 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:small_hurry/main.dart';
-import 'package:small_hurry/main/utils/AppColors.dart';
 import 'package:small_hurry/main/utils/AppWidget.dart';
 import 'package:small_hurry/main/utils/codePicker/country_code_picker.dart';
 import 'package:small_hurry/shopHop/screens/ShHomeScreen.dart';
 import 'package:small_hurry/shopHop/screens/ShSignUp.dart';
 import 'package:small_hurry/shopHop/utils/ShColors.dart';
 import 'package:small_hurry/shopHop/utils/ShConstant.dart';
-import 'package:small_hurry/shopHop/utils/ShImages.dart';
 import 'package:small_hurry/shopHop/utils/ShStrings.dart';
 
 class ShSignIn extends StatefulWidget {
@@ -148,34 +145,7 @@ class ShSignInState extends State<ShSignIn> {
                     },
                   ),
                 ),
-                // SizedBox(height: spacing_standard_new),
-                // SizedBox(
-                //   width: double.infinity,
-                //   height: 50,
-                //   // height: double.infinity,
-                //   child: MaterialButton(
-                //     padding: EdgeInsets.all(spacing_standard),
-                //     child: text("Google", fontSize: textSizeNormal, fontFamily: fontMedium, textColor: sh_colorPrimary),
-                //     textColor: sh_white,
-                //     shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0), side: BorderSide(color: sh_colorPrimary, width: 1)),
-                //     color: sh_white,
-                //     onPressed: () => {ShSignUp().launch(context)},
-                //   ),
-                // ),
-                // SizedBox(height: spacing_standard_new),
-                // SizedBox(
-                //   width: double.infinity,
-                //   height: 50,
-                //   // height: double.infinity,
-                //   child: MaterialButton(
-                //     padding: EdgeInsets.all(spacing_standard),
-                //     child: text("Facebook", fontSize: textSizeNormal, fontFamily: fontMedium, textColor: sh_white),
-                //     textColor: sh_white,
-                //     shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0), side: BorderSide(color: sh_colorPrimary, width: 1)),
-                //     color: sh_colorPrimary,
-                //     onPressed: () => {ShSignUp().launch(context)},
-                //   ),
-                // ),
+
                 SizedBox(
                   height: spacing_xlarge,
                 ),
@@ -202,7 +172,7 @@ class ShSignInState extends State<ShSignIn> {
                         style: ElevatedButton.styleFrom(
                     primary: sh_semi_white,
                     textStyle: TextStyle(color: sh_colorPrimary,)),
-                        onPressed: () {},
+                        onPressed: () {ShHomeScreen().launch(context);},
                         icon: Icon( // <-- Icon
                           Icons.android_rounded,
                           size: 40.0,
@@ -211,7 +181,7 @@ class ShSignInState extends State<ShSignIn> {
                         label: Text('Google', style: TextStyle(color: sh_colorPrimary),), // <-- Text
                       ),
                       ElevatedButton.icon(
-                        onPressed: () {},
+                        onPressed: () {ShHomeScreen().launch(context);},
                         icon: Icon( // <-- Icon
                           Icons.facebook,
                           size: 40.0,

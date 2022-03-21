@@ -203,6 +203,14 @@ class HorizontalTabState extends State<HorizontalTab> {
   }
 }
 
+Widget itemTitle(BuildContext context, var titleText, {var fontfamily = 'Medium'}) {
+  return text(titleText, isCentered: true, fontSize: 16.0, fontFamily: fontfamily, textColor: Theme.of(context).primaryColorDark);
+}
+
+Widget itemSubTitle(BuildContext context, var titleText, {var fontFamily = 'Regular', var fontsize = 16.0, var colorThird = false, isLongText = true}) {
+  return text(titleText, fontSize: fontsize, fontFamily: fontFamily, isLongText: isLongText, textColor: colorThird ? Color(0xFF26272B) : Color(0xFFFE901C));
+}
+
 Widget ring(String description) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
