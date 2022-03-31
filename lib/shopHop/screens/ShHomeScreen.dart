@@ -19,6 +19,7 @@ import 'package:small_hurry/shopHop/utils/ShConstant.dart';
 import 'package:small_hurry/shopHop/utils/ShExtension.dart';
 import 'package:small_hurry/shopHop/utils/ShImages.dart';
 import 'package:small_hurry/shopHop/utils/ShStrings.dart';
+import 'package:small_hurry/shopHop/utils/ShWidget.dart';
 
 import 'ShSubCategory.dart';
 
@@ -42,7 +43,7 @@ class ShHomeScreenState extends State<ShHomeScreen> {
   @override
   void initState() {
     super.initState();
-    fragments = [homeFragment, searchFragment, profileFragment, promoFragment];
+    fragments = [homeFragment, searchFragment, promoFragment, profileFragment,];
     fetchData();
   }
 
@@ -73,6 +74,7 @@ class ShHomeScreenState extends State<ShHomeScreen> {
         context,
         "Small Hurry",
         showBack: false,
+        isImage: true,
         // actions: [
         //   Tooltip(
         //     message: 'Dark Mode',
@@ -89,13 +91,14 @@ class ShHomeScreenState extends State<ShHomeScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
-        margin: EdgeInsets.only(bottom: 18.0),
+        margin: EdgeInsets.only(bottom: 20.0),
         child: FloatingActionButton(
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           backgroundColor: appColorPrimary,
           onPressed: () { ShCartScreen().launch(context); },
           tooltip: 'Cart',
-          child: SvgPicture.asset(sh_ic_cart, width: 24, height: 24, color: appDark_parrot_green), // Icon(Icons.add, color: appLight_yellow),
+          // child: SvgPicture.asset(sh_ic_cart, width: 24, height: 24, color: appDark_parrot_green), // Icon(Icons.add, color: appLight_yellow),
+          child: Center(child: cartIcon(context, 5, iconColor: appWhite)),
           elevation: 2.0,
         ),
       ),
@@ -117,8 +120,10 @@ class ShHomeScreenState extends State<ShHomeScreen> {
                     children: <Widget>[
                       tabItem(0, sh_ic_home),
                       tabItem(1, sh_ic_search),
-                      tabItem(2, sh_user),
-                      tabItem(3, sh_ic_gift),
+                      SizedBox(width: 10),
+                      tabItem(2, sh_ic_gift),
+                      tabItem(3, sh_user),
+
                     ],
                   ),
                 )

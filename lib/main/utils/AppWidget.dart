@@ -154,11 +154,11 @@ AppBar appBar(BuildContext context, String title, {List<Widget>? actions, bool s
   );
 }
 
-AppBar customAppBar(BuildContext context, String title, {List<Widget>? actions, bool showBack = true, Color? color, Color? iconColor, Color? textColor}) {
+AppBar customAppBar(BuildContext context, String title, {List<Widget>? actions, bool showBack = true, bool isImage = false, Color? color, Color? iconColor, Color? textColor}) {
   return AppBar(
     centerTitle: true,
     automaticallyImplyLeading: false,
-    title: Text(title, style: TextStyle(color: appLight_parrot_green),),
+    title: isImage ? Image.asset('images/shophop/ic_logo.png', height: MediaQuery.of(context).size.height * 0.05,) : Text(title, style: TextStyle(color: appLight_parrot_green),),
     backgroundColor: Theme.of(context).primaryColor,
     leading: showBack
         ? IconButton(

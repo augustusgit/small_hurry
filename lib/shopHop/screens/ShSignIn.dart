@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:small_hurry/main/utils/AppColors.dart';
 import 'package:small_hurry/main/utils/AppWidget.dart';
 import 'package:small_hurry/main/utils/codePicker/country_code_picker.dart';
 import 'package:small_hurry/shopHop/screens/ShHomeScreen.dart';
@@ -32,6 +33,7 @@ class ShSignInState extends State<ShSignIn> {
         context,
         "Login",
         showBack: true,
+        isImage: true,
         // actions: [
         //   Tooltip(
         //     message: 'Dark Mode',
@@ -82,7 +84,7 @@ class ShSignInState extends State<ShSignIn> {
                               hintStyle: TextStyle(color: sh_textColorSecondary, fontFamily: fontRegular, fontSize: textSizeMedium),
                               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                               focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: sh_colorPrimary, width: 0.5)),
-                              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: Colors.transparent, style: BorderStyle.none, width: 0))),
+                              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: sh_colorPrimary, style: BorderStyle.solid, width: 0))),
                         ),
                       ),
                     ],
@@ -105,7 +107,7 @@ class ShSignInState extends State<ShSignIn> {
                       hintStyle: TextStyle(color: sh_textColorSecondary, fontFamily: fontRegular, fontSize: textSizeMedium),
                       contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                       focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: sh_colorPrimary, width: 0.5)),
-                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: Colors.transparent, style: BorderStyle.none, width: 0))),
+                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: sh_colorPrimary, style: BorderStyle.solid, width: 0))),
                 ),
                 SizedBox(
                   height: spacing_standard_new,
@@ -125,7 +127,7 @@ class ShSignInState extends State<ShSignIn> {
                       hintText: sh_hint_password,
                       contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                       focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: sh_colorPrimary, width: 0.5)),
-                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: Colors.transparent, style: BorderStyle.none, width: 0))),
+                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: sh_colorPrimary, style: BorderStyle.solid, width: 0))),
                 ),
                 SizedBox(
                   height: spacing_xlarge,
@@ -139,9 +141,9 @@ class ShSignInState extends State<ShSignIn> {
                     child: text(sh_lbl_sign_in, fontSize: textSizeNormal, fontFamily: fontMedium, textColor: sh_white),
                     textColor: sh_white,
                     shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
-                    color: sh_colorPrimary,
+                    color: appLight_bitter_lemon,
                     onPressed: () => {
-                      ShHomeScreen().launch(context),
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ShHomeScreen())),
                     },
                   ),
                 ),
@@ -170,18 +172,22 @@ class ShSignInState extends State<ShSignIn> {
                     children: <Widget>[
                       ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
-                    primary: sh_semi_white,
+                    primary: appColorPrimaryLight,
                     textStyle: TextStyle(color: sh_colorPrimary,)),
-                        onPressed: () {ShHomeScreen().launch(context);},
-                        icon: Icon( // <-- Icon
-                          Icons.android_rounded,
-                          size: 40.0,
-                          color: sh_colorPrimary,
-                        ),
-                        label: Text('Google', style: TextStyle(color: sh_colorPrimary),), // <-- Text
+                        onPressed: () {Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ShHomeScreen()));},
+                        icon: Image.asset('images/shophop/gsignin.png', width: 35, height: 35,),
+                        // Icon( // <-- Icon
+                        //   Icons.android_rounded,
+                        //   size: 40.0,
+                        //   color: sh_white,
+                        // ),
+                        label: Text('Google', style: TextStyle(color: appTextColorSecondary),), // <-- Text
                       ),
                       ElevatedButton.icon(
-                        onPressed: () {ShHomeScreen().launch(context);},
+                        style: ElevatedButton.styleFrom(
+                            primary: appLight_facebook_blue,
+                            textStyle: TextStyle(color: sh_colorPrimary,)),
+                        onPressed: () {Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ShHomeScreen()));},
                         icon: Icon( // <-- Icon
                           Icons.facebook,
                           size: 40.0,

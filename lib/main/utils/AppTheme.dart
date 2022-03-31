@@ -13,9 +13,11 @@ class AppThemeData {
     scaffoldBackgroundColor: scaffoldLightColor,
     primaryColor: appColorPrimary,
     primaryColorDark: appColorPrimary,
+    highlightColor: appTextColorSecondary,
     errorColor: Colors.red,
     hoverColor: Colors.white54,
     dividerColor: viewLineColor,
+    cardColor: appColorAccent,
     fontFamily: GoogleFonts.nunito().fontFamily,
     appBarTheme: AppBarTheme(
       color: appLayout_background,

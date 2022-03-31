@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:small_hurry/main/utils/AppColors.dart';
 import 'package:small_hurry/main/utils/AppWidget.dart';
 import 'package:small_hurry/main/utils/dots_indicator/dots_indicator.dart';
 import 'package:small_hurry/shopHop/models/ShProduct.dart';
@@ -203,8 +204,8 @@ class HorizontalTabState extends State<HorizontalTab> {
   }
 }
 
-Widget itemTitle(BuildContext context, var titleText, {var fontfamily = 'Medium'}) {
-  return text(titleText, isCentered: true, fontSize: 16.0, fontFamily: fontfamily, textColor: Theme.of(context).primaryColorDark);
+Widget itemTitle(BuildContext context, var titleText, {var fontfamily = 'Medium', fontSize = 16.0, textColor = appColorPrimary, isCentered = true, lineThrough = false}) {
+  return text(titleText, isCentered: isCentered, fontSize: fontSize, fontFamily: fontfamily, textColor: textColor, lineThrough: lineThrough  );
 }
 
 Widget itemSubTitle(BuildContext context, var titleText, {var fontFamily = 'Regular', var fontsize = 16.0, var colorThird = false, isLongText = true}) {
@@ -473,7 +474,7 @@ List<Widget> colorWidget(List<Attribute> attributes) {
   return list;
 }
 
-Widget cartIcon(context, cartCount) {
+Widget cartIcon(context, cartCount, {iconColor = sh_textColorSecondary}) {
   return InkWell(
     child: Stack(
       alignment: Alignment.center,
@@ -481,10 +482,11 @@ Widget cartIcon(context, cartCount) {
         Container(
           width: 40,
           height: 40,
-          margin: EdgeInsets.only(right: spacing_standard_new),
+          // margin: EdgeInsets.only(right: spacing_standard_new),
           padding: EdgeInsets.all(spacing_standard),
           child: SvgPicture.asset(
             sh_ic_cart,
+            color: iconColor,
           ),
         ),
         cartCount > 0

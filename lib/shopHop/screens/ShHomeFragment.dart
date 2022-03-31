@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:small_hurry/main/utils/AppColors.dart';
 import 'package:small_hurry/main/utils/AppWidget.dart';
-import 'package:small_hurry/main/utils/dots_indicator/dots_indicator.dart';
 import 'package:small_hurry/shopHop/models/ShCategory.dart';
 import 'package:small_hurry/shopHop/models/ShProduct.dart';
 import 'package:small_hurry/shopHop/screens/ShSearchScreen.dart';
-import 'package:small_hurry/shopHop/screens/ShSubCategory.dart';
-import 'package:small_hurry/shopHop/screens/ShViewAllProducts.dart';
+import 'package:small_hurry/shopHop/screens/category_subcategory_screen.dart';
 import 'package:small_hurry/shopHop/utils/ShColors.dart';
 import 'package:small_hurry/shopHop/utils/ShConstant.dart';
 import 'package:small_hurry/shopHop/utils/ShExtension.dart';
@@ -29,6 +27,7 @@ class ShHomeFragmentState extends State<ShHomeFragment> {
   List<ShProduct> featuredProducts = [];
   var position = 0;
   var colors = [sh_cat_1, sh_cat_2, sh_cat_3, sh_cat_4, sh_cat_5, sh_cat_3, sh_cat_1,];
+  final PageController _controller = PageController(initialPage: 0);
 
   @override
   void initState() {
@@ -84,7 +83,7 @@ class ShHomeFragmentState extends State<ShHomeFragment> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      color: appLight_yellow,
+                      color: appLight_bitter_lemon,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -96,15 +95,21 @@ class ShHomeFragmentState extends State<ShHomeFragment> {
                             color: sh_white,
                             onPressed: () => {ShSearchScreen().launch(context)},
                             minWidth: width * 0.77,
-                            height: height * 0.1,
+                            height: height * 0.12,
                           ),
                           Container(
-                            height: height * 0.1,
+                            padding: EdgeInsets.only(top: 5),
+                            height: height * 0.12,
                             width: width * 0.23,
                             decoration: new BoxDecoration(
-                                color: appLight_yellow
+                                color: appLight_bitter_lemon
                             ),
-                            child: Center(child: text("ETA \n 10mins.", textColor: appColorPrimaryDark, maxLine: 6, fontSize: textSizeSMedium, isLongText: true)),
+                            child: Center(child: Column(
+                              children: [
+                                text("ETA", textColor: appColorPrimaryDark, maxLine: 1, fontSize: textSizeSmall),
+                                text("15mins.", textColor: appColorPrimaryDark, maxLine: 1, fontSize: textSizeMedium),
+                              ],
+                            )),
                           ),
                         ],
                       ),
@@ -116,6 +121,7 @@ class ShHomeFragmentState extends State<ShHomeFragment> {
                         children: <Widget>[
                           PageView.builder(
                             itemCount: banners.length,
+                            controller: _controller,
                             itemBuilder: (context, index) {
                               return Image.asset(banners[index], width: width, height: height * 0.55, fit: BoxFit.cover);
                             },
@@ -125,41 +131,43 @@ class ShHomeFragmentState extends State<ShHomeFragment> {
                               });
                             },
                           ),
-                          banners.isNotEmpty ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: DotsIndicator(
-                              dotsCount: banners.length,
-                              position: position,
-                              decorator: DotsDecorator(
-                                color: sh_view_color,
-                                activeColor: sh_colorPrimary,
-                                size: const Size.square(7.0),
-                                activeSize: const Size.square(10.0),
-                                spacing: EdgeInsets.all(3),
-                              ),
-                            ),
-                          ) : Container(),
+                          // banners.isNotEmpty ? Padding(
+                          //   padding: const EdgeInsets.all(8.0),
+                          //   child: DotsIndicator(
+                          //     dotsCount: banners.length,
+                          //     position: position,
+                          //     decorator: DotsDecorator(
+                          //       color: sh_view_color,
+                          //       activeColor: sh_colorPrimary,
+                          //       size: const Size.square(7.0),
+                          //       activeSize: const Size.square(10.0),
+                          //       spacing: EdgeInsets.all(3),
+                          //     ),
+                          //   ),
+                          // ) : Container(),
                         ],
                       ),
                     ),
-
+                    // horizontalHeading(sh_lbl_newest_product, callback: () {
+                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => ShViewAllProductScreen(prodcuts: newestProducts, title: sh_lbl_newest_product)));
+                    // }),
                   Container(
                     child: GridView.builder(
                       itemCount: list.length,
                       shrinkWrap: true,
                       padding: EdgeInsets.only(left: 11, right: 11, top: spacing_standard_new),
                       physics: BouncingScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, childAspectRatio: 9 / 9),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, childAspectRatio: 9 / 11),
                       scrollDirection: Axis.vertical,
                       controller: ScrollController(keepScrollOffset: false),
                       itemBuilder: (context, index) {
 
                         return InkWell(
                           onTap: () {
-                            // Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetailScreen(title: "Action")));
+                             Navigator.push(context, MaterialPageRoute(builder: (context) => CategorySubScreen()));
                           },
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Expanded(
                                 child: networkImage(list[index].image!, aWidth: double.infinity, fit: BoxFit.cover).cornerRadiusWithClipRRect(8),
@@ -172,48 +180,6 @@ class ShHomeFragmentState extends State<ShHomeFragment> {
                       },
                     ),
                   ),
-
-                    // Container(
-                    //   height: 80,
-                    //   margin: EdgeInsets.only(top: spacing_standard_new),
-                    //   alignment: Alignment.topLeft,
-                    //   child: ListView.builder(
-                    //     itemCount: list.length,
-                    //     shrinkWrap: true,
-                    //     scrollDirection: Axis.horizontal,
-                    //     padding: EdgeInsets.only(left: spacing_standard, right: spacing_standard),
-                    //     itemBuilder: (BuildContext context, int index) {
-                    //       return InkWell(
-                    //         onTap: () {
-                    //           Navigator.push(context, MaterialPageRoute(builder: (context) => ShSubCategory(category: list[index])));
-                    //         },
-                    //         child: Container(
-                    //           margin: EdgeInsets.only(left: spacing_standard, right: spacing_standard),
-                    //           child: Column(
-                    //             children: <Widget>[
-                    //               Container(
-                    //                 padding: EdgeInsets.all(spacing_middle),
-                    //                 decoration: BoxDecoration(shape: BoxShape.circle, color: colors[index % colors.length]),
-                    //                 child: Image.asset(list[index].image!, width: 15, color: sh_white),
-                    //               ),
-                    //               SizedBox(height: spacing_control),
-                    //               text(list[index].name, textColor: colors[index % colors.length], fontFamily: fontMedium)
-                    //             ],
-                    //           ),
-                    //         ),
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
-                    // horizontalHeading(sh_lbl_newest_product, callback: () {
-                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => ShViewAllProductScreen(prodcuts: newestProducts, title: sh_lbl_newest_product)));
-                    // }),
-                    // ProductHorizontalList(newestProducts),
-                    // SizedBox(height: spacing_standard_new),
-                    // horizontalHeading(sh_lbl_Featured, callback: () {
-                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => ShViewAllProductScreen(prodcuts: featuredProducts, title: sh_lbl_Featured)));
-                    // }),
-                    // ProductHorizontalList(featuredProducts),
                     SizedBox(height: 60),
                   ],
                 ),

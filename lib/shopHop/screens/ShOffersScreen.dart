@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:small_hurry/main/utils/AppWidget.dart';
 import 'package:small_hurry/shopHop/models/ShProduct.dart';
+import 'package:small_hurry/shopHop/screens/announcementFragment.dart';
+import 'package:small_hurry/shopHop/screens/promotionFragment.dart';
 import 'package:small_hurry/shopHop/utils/ShColors.dart';
 import 'package:small_hurry/shopHop/utils/ShConstant.dart';
 import 'package:small_hurry/shopHop/utils/ShExtension.dart';
@@ -20,92 +22,44 @@ class ShOffersScreen extends StatefulWidget {
 
 class ShOffersScreenState extends State<ShOffersScreen> {
   List<ShProduct> mProductModel = [];
+  int? groupValue = 0;
+  var announcementFragment = AnnouncementFragment();
+  var promotionalFragment = PromotionFragment();
+  late var fragments;
 
   @override
   void initState() {
     super.initState();
-    fetchData();
-  }
-
-  fetchData() async {
-    var products = await loadProducts();
-    List<ShProduct> offers = [];
-    products.forEach((product) {
-      if (product.on_sale!) {
-        offers.add(product);
-      }
-    });
-    setState(() {
-      mProductModel.clear();
-      mProductModel.addAll(offers);
-    });
+    fragments = [announcementFragment, promotionalFragment];
   }
 
   @override
   Widget build(BuildContext context) {
-    final gridView = Container(
-      child: Center(child: Text("Coming Soon", style: TextStyle(fontWeight: FontWeight.w900),)),
-      // child: GridView.builder(
-      //     itemCount: mProductModel.length,
-      //     shrinkWrap: true,
-      //     padding: EdgeInsets.all(spacing_middle),
-      //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 13, crossAxisSpacing: spacing_middle, mainAxisSpacing: spacing_standard_new),
-      //     itemBuilder: (_, index) {
-      //       return InkWell(
-      //         onTap: () {
-      //           ShProductDetail(product: mProductModel[index]).launch(context);
-      //         },
-      //         child: Container(
-      //           child: Wrap(
-      //             crossAxisAlignment: WrapCrossAlignment.start,
-      //             children: <Widget>[
-      //               AspectRatio(
-      //                 aspectRatio: 9 / 11,
-      //                 child: Stack(
-      //                   alignment: Alignment.bottomRight,
-      //                   children: <Widget>[
-      //                     Container(
-      //                       padding: EdgeInsets.all(1),
-      //                       decoration: BoxDecoration(border: Border.all(color: sh_view_color, width: 0.5)),
-      //                       child: Image.asset(
-      //                         "images/shophop/img/products" + mProductModel[index].images![0].src!,
-      //                         fit: BoxFit.cover,
-      //                         width: double.infinity,
-      //                         height: double.infinity,
-      //                       ),
-      //                     ),
-      //                     Container(
-      //                       padding: EdgeInsets.all(spacing_control),
-      //                       margin: EdgeInsets.all(spacing_standard),
-      //                       decoration: BoxDecoration(shape: BoxShape.circle, color: sh_white),
-      //                       child: Icon(
-      //                         Icons.favorite_border,
-      //                         color: sh_textColorPrimary,
-      //                         size: 16,
-      //                       ),
-      //                     )
-      //                   ],
-      //                 ),
-      //               ),
-      //               SizedBox(height: 2),
-      //               Row(
-      //                 children: <Widget>[
-      //                   text(mProductModel[index].on_sale! ? mProductModel[index].sale_price.toString().toCurrencyFormat() : mProductModel[index].price.toString().toCurrencyFormat(),
-      //                       textColor: sh_colorPrimary, fontFamily: fontMedium, fontSize: textSizeNormal),
-      //                   SizedBox(
-      //                     width: spacing_control,
-      //                   ),
-      //                   Text(
-      //                     mProductModel[index].regular_price.toString().toCurrencyFormat()!,
-      //                     style: TextStyle(color: sh_textColorSecondary, fontFamily: fontRegular, fontSize: textSizeSMedium, decoration: TextDecoration.lineThrough),
-      //                   ),
-      //                 ],
-      //               ),
-      //             ],
-      //           ),
-      //         ),
-      //       );
-      //     }),
+    final gridView = SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            // height: MediaQuery.of(context).size.height * 0.15,
+            child: CupertinoSlidingSegmentedControl<int>(
+              backgroundColor:  CupertinoColors.white,
+              thumbColor: Theme.of(context).secondaryHeaderColor,
+              padding: EdgeInsets.all(12),
+              groupValue: groupValue,
+              children: {
+                0: buildSegment("Promotions"),
+                1: buildSegment("Announcements"),
+              },
+              onValueChanged: (value){
+                setState(() {
+                  groupValue = value;
+                });
+              },
+            ),
+          ),
+          fragments[groupValue],
+        ],
+      ),
     );
     return Scaffold(
       // appBar: AppBar(
@@ -118,4 +72,12 @@ class ShOffersScreenState extends State<ShOffersScreen> {
       body: gridView,
     );
   }
+
+  Widget buildSegment(String text){
+    return Container(
+      child: Text(text,style: TextStyle(fontSize: 22,
+          color: Colors.black),),
+    );
+  }
+
 }

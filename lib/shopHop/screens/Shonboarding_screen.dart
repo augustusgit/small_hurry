@@ -30,7 +30,7 @@ class _ShOnboardingScreenState extends State<ShOnboardingScreen> {
     "Shop the most trending fashion on the biggest shopping website",
     "Grab the best seller pieces at bargain prices."
   ];
-  var position = 0;
+  int position = 0;
 
   @override
   void dispose() {
@@ -48,19 +48,20 @@ class _ShOnboardingScreenState extends State<ShOnboardingScreen> {
         context,
         "Small Hurry",
         showBack: false,
-        actions: [
-          Tooltip(
-            message: 'Dark Mode',
-            child: Switch(
-              value: appStore.isDarkModeOn,
-              activeColor: appColorPrimary,
-              onChanged: (s) {
-                appStore.toggleDarkMode(value: s);
-                setState(() {});
-              },
-            ),
-          ),
-        ],
+        isImage: true,
+        // actions: [
+        //   Tooltip(
+        //     message: 'Dark Mode',
+        //     child: Switch(
+        //       value: appStore.isDarkModeOn,
+        //       activeColor: appColorPrimary,
+        //       onChanged: (s) {
+        //         appStore.toggleDarkMode(value: s);
+        //         setState(() {});
+        //       },
+        //     ),
+        //   ),
+        // ],
       ),
       body: SafeArea(
         child: Container(
@@ -97,35 +98,39 @@ class _ShOnboardingScreenState extends State<ShOnboardingScreen> {
                           margin: EdgeInsets.all(spacing_standard_new),
                           child: Center(
                               child: Image.asset(
-                                  slider, width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height, fit: BoxFit.cover)),
+                                  slider, width: MediaQuery.of(context).size.width, fit: BoxFit.cover)),
                         );
                       },
                     );
                   }).toList(),
                   onPageChanged: (index) {
-                    position = index;
-                    setState(() {});
+                    setState(() {
+                      position = index;
+                    });
                   },
                 ),
                 Padding(
                   padding: const EdgeInsets.all(spacing_large),
                   child: Column(
                     children: <Widget>[
-                      DotsIndicator(
-                        dotsCount: 3,
-                        position: position,
-                        decorator: DotsDecorator(color: sh_view_color, activeColor: sh_colorPrimary, activeSize: const Size.square(14.0), spacing: EdgeInsets.all(spacing_control)),
-                      ),
-                      SizedBox(height: spacing_standard),
+                      // DotsIndicator(
+                      //   dotsCount: 3,
+                      //   position: position,
+                      //   decorator: DotsDecorator(color: sh_view_color, activeColor: sh_colorPrimary, activeSize: const Size.square(14.0), spacing: EdgeInsets.all(spacing_control)),
+                      // ),
+                      // SizedBox(height: spacing_standard),
                       InkWell(
                         onTap: () {
-                          ShSignIn().launch(context);
+                          ShHomeScreen().launch(context);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             text(sh_lbl_continue_without_login),
-                            text(sh_lbl_sign_in, textColor: sh_textColorPrimary, fontFamily: fontBold),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: text(sh_lbl_sign_in, textColor: sh_textColorPrimary, fontFamily: fontBold),
+                            ),
                           ],
                         ),
                       ),
@@ -138,7 +143,7 @@ class _ShOnboardingScreenState extends State<ShOnboardingScreen> {
                           child: Text(sh_text_register, style: TextStyle(fontSize: 18)),
                           textColor: sh_white,
                           shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(5.0)),
-                          color: sh_colorPrimary,
+                          color: appLight_bitter_lemon,
                           onPressed: () {
                             // finish(context);
                             ShSignUp().launch(context);
@@ -154,7 +159,10 @@ class _ShOnboardingScreenState extends State<ShOnboardingScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             text(sh_lbl_already_have_a_account),
-                            text(sh_lbl_sign_in, textColor: sh_textColorPrimary, fontFamily: fontBold),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: text(sh_lbl_sign_in, textColor: sh_textColorPrimary, fontFamily: fontBold),
+                            ),
                           ],
                         ),
                       )
