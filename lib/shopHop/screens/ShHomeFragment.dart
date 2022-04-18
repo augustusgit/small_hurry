@@ -65,6 +65,10 @@ class ShHomeFragmentState extends State<ShHomeFragment> {
     });
   }
 
+  fetchCategories()async{
+
+  }
+
   @override
   void setState(fn) {
     if (mounted) super.setState(fn);
@@ -99,7 +103,7 @@ class ShHomeFragmentState extends State<ShHomeFragment> {
                           ),
                           Container(
                             padding: EdgeInsets.only(top: 5),
-                            height: height * 0.12,
+                            height: height * 0.15,
                             width: width * 0.23,
                             decoration: new BoxDecoration(
                                 color: appLight_bitter_lemon
@@ -107,7 +111,7 @@ class ShHomeFragmentState extends State<ShHomeFragment> {
                             child: Center(child: Column(
                               children: [
                                 text("ETA", textColor: appColorPrimaryDark, maxLine: 1, fontSize: textSizeSmall),
-                                text("15mins.", textColor: appColorPrimaryDark, maxLine: 1, fontSize: textSizeMedium),
+                                text("15mins.", textColor: appColorPrimaryDark, maxLine: 1, isBoldText: true, fontSize: textSizeMedium),
                               ],
                             )),
                           ),

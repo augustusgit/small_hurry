@@ -11,6 +11,7 @@ import 'package:small_hurry/shopHop/screens/category_subcategory_screen.dart';
 import 'package:small_hurry/shopHop/screens/product_detail.dart';
 import 'package:small_hurry/shopHop/utils/ShColors.dart';
 import 'package:small_hurry/shopHop/utils/ShImages.dart';
+import 'package:small_hurry/shopHop/utils/prefs.dart';
 
 class ShSplashScreen extends StatefulWidget {
   static String tag = '/ShophopSplash';
@@ -24,6 +25,7 @@ class ShSplashScreenState extends State<ShSplashScreen> {
   void initState() {
     super.initState();
     startTime();
+
   }
 
   startTime() async {
@@ -31,10 +33,21 @@ class ShSplashScreenState extends State<ShSplashScreen> {
     return Timer(_duration, navigationPage);
   }
 
-  void navigationPage() {
+  goOnBoard(){
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ShOnboardingScreen()));
+  }
+
+  goHome(){
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ShHomeScreen()));
+  }
+
+  void navigationPage() async {
     finish(context);
     // const CategorySubScreen().launch(context);
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ShOnboardingScreen()));
+    bool loggedIn = await checkLoggedInUser();
+    loggedIn ? goHome() : goOnBoard();
+    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ShHomeScreen()));
+
   }
 
   @override
@@ -47,15 +60,15 @@ class ShSplashScreenState extends State<ShSplashScreen> {
         child: Stack(
           children: <Widget>[
             Image.asset(splash_bg, width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height, fit: BoxFit.cover),
-            Positioned(
-              top: -width * 0.2,
-              left: -width * 0.2,
-              child: Container(
-                width: width * 0.65,
-                height: width * 0.65,
-                decoration: BoxDecoration(shape: BoxShape.circle, color: sh_colorPrimary.withOpacity(0.3)),
-              ),
-            ),
+            // Positioned(
+            //   top: -width * 0.2,
+            //   left: -width * 0.2,
+            //   child: Container(
+            //     width: width * 0.65,
+            //     height: width * 0.65,
+            //     decoration: BoxDecoration(shape: BoxShape.circle, color: sh_colorPrimary.withOpacity(0.3)),
+            //   ),
+            // ),
 
             ],
         ),

@@ -25,6 +25,7 @@ Widget text(
   bool textAllCaps = false,
   var isLongText = false,
   bool lineThrough = false,
+  bool isBoldText = false,
 }) {
   return Text(
     textAllCaps ? text!.toUpperCase() : text!,
@@ -36,6 +37,7 @@ Widget text(
       fontSize: fontSize,
       color: textColor ?? appStore.textSecondaryColor,
       height: 1.5,
+      fontWeight: isBoldText ? FontWeight.bold : FontWeight.normal,
       letterSpacing: latterSpacing,
       decoration: lineThrough ? TextDecoration.lineThrough : TextDecoration.none,
     ),
@@ -165,11 +167,11 @@ AppBar customAppBar(BuildContext context, String title, {List<Widget>? actions, 
       onPressed: () {
         finish(context);
       },
-      icon: Icon(Icons.arrow_back, color: appStore.isDarkModeOn ? white : appLight_parrot_green),
+      icon: Icon(Icons.arrow_back, color: appStore.isDarkModeOn ? white : iconColorPrimary),
     )
         : null,
     actions: actions,
-    iconTheme: IconThemeData(color: appLight_parrot_green),
+    iconTheme: IconThemeData(color: iconColorPrimary),
   );
 }
 

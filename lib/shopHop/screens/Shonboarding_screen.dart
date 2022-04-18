@@ -68,47 +68,65 @@ class _ShOnboardingScreenState extends State<ShOnboardingScreen> {
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.fromLTRB(spacing_large, spacing_large, spacing_large, spacing_standard_new),
-                  child: Column(
-                    children: <Widget>[
-                      text(mHeadingList[position], textColor: sh_textColorPrimary, fontSize: textSizeLarge, fontFamily: fontBold),
-                      SizedBox(height: 5.0),
-                    ],
-                  ),
-                ),
-                ShCarouselSlider(
-                  viewportFraction: 0.8,
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  enlargeCenterPage: true,
-                  autoPlay: true,
-                  scrollDirection: Axis.horizontal,
-                  items: mSliderList.map((slider) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                          width: width * 0.9,
-                          decoration: BoxDecoration(
-                            color: sh_white,
-                            borderRadius: BorderRadius.all(Radius.circular(spacing_standard)),
-                            boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.4), spreadRadius: spacing_control_half, blurRadius: 10, offset: Offset(1, 3))],
-                          ),
-                          margin: EdgeInsets.all(spacing_standard_new),
-                          child: Center(
-                              child: Image.asset(
-                                  slider, width: MediaQuery.of(context).size.width, fit: BoxFit.cover)),
-                        );
-                      },
-                    );
-                  }).toList(),
-                  onPageChanged: (index) {
-                    setState(() {
-                      position = index;
-                    });
-                  },
-                ),
+                // Container(
+                //   margin: EdgeInsets.fromLTRB(spacing_large, spacing_large, spacing_large, spacing_standard_new),
+                //   child: Column(
+                //     children: <Widget>[
+                //       text(mHeadingList[position], textColor: sh_textColorPrimary, fontSize: textSizeLarge, fontFamily: fontBold),
+                //       SizedBox(height: 5.0),
+                //     ],
+                //   ),
+                // ),
+                // ShCarouselSlider(
+                //   viewportFraction: 1.0,
+                //   height: MediaQuery.of(context).size.height * 0.8,
+                //   enlargeCenterPage: false,
+                //   autoPlay: true,
+                //   scrollDirection: Axis.horizontal,
+                //   items: mSliderList.map((slider) {
+                //     return Builder(
+                //       builder: (BuildContext context) {
+                //         return Container(
+                //           width: width * 0.9,
+                //           decoration: BoxDecoration(
+                //             color: sh_white,
+                //             borderRadius: BorderRadius.all(Radius.circular(spacing_standard)),
+                //             boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.4), spreadRadius: spacing_control_half, blurRadius: 10, offset: Offset(1, 3))],
+                //           ),
+                //           margin: EdgeInsets.all(spacing_standard_new),
+                //           child: Center(
+                //               child: Image.asset(
+                //                   slider, width: MediaQuery.of(context).size.width, fit: BoxFit.cover)),
+                //         );
+                //       },
+                //     );
+                //   }).toList(),
+                //   onPageChanged: (index) {
+                //     setState(() {
+                //       position = index;
+                //     });
+                //   },
+                // ),
+          Builder(builder: (context) {
+          final double height = MediaQuery.of(context).size.height * 0.6;
+          return CarouselSlider(
+          options: CarouselOptions(
+          height: height,
+          viewportFraction: 1.0,
+          enlargeCenterPage: true,
+          // autoPlay: false,
+          ),
+          items: mSliderList.map((item) => Container(
+          child: Center(
+          child: Image.asset(
+            item,
+          fit: BoxFit.cover,
+          height: height,)),
+          )).toList(),);
+          },
+          ),
                 Padding(
                   padding: const EdgeInsets.all(spacing_large),
                   child: Column(
@@ -119,20 +137,20 @@ class _ShOnboardingScreenState extends State<ShOnboardingScreen> {
                       //   decorator: DotsDecorator(color: sh_view_color, activeColor: sh_colorPrimary, activeSize: const Size.square(14.0), spacing: EdgeInsets.all(spacing_control)),
                       // ),
                       // SizedBox(height: spacing_standard),
-                      InkWell(
-                        onTap: () {
-                          ShHomeScreen().launch(context);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            text(sh_lbl_continue_without_login),
-                            Padding(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          text(sh_lbl_continue_without_login),
+                          InkWell(
+                            onTap: () {
+                              ShHomeScreen().launch(context);
+                            },
+                            child: Padding(
                               padding: const EdgeInsets.only(left: 8.0),
-                              child: text(sh_lbl_sign_in, textColor: sh_textColorPrimary, fontFamily: fontBold),
+                              child: text(sh_lbl_sign_in, textColor: sh_colorPrimaryDark, fontFamily: fontBold),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                       SizedBox(height: spacing_standard),
                       SizedBox(
@@ -161,7 +179,7 @@ class _ShOnboardingScreenState extends State<ShOnboardingScreen> {
                             text(sh_lbl_already_have_a_account),
                             Padding(
                               padding: const EdgeInsets.only(left: 8.0),
-                              child: text(sh_lbl_sign_in, textColor: sh_textColorPrimary, fontFamily: fontBold),
+                              child: text(sh_lbl_sign_in, textColor: sh_colorPrimaryDark, fontFamily: fontBold),
                             ),
                           ],
                         ),

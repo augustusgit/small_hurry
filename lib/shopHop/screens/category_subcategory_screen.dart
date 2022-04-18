@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:small_hurry/integrations/network/rest_apis.dart';
 import 'package:small_hurry/main/utils/AppColors.dart';
 import 'package:small_hurry/main/utils/AppWidget.dart';
 import 'package:small_hurry/shopHop/models/ShCategory.dart';
 import 'package:small_hurry/shopHop/models/ShProduct.dart';
+import 'package:small_hurry/shopHop/models/category_sub_category.dart';
 import 'package:small_hurry/shopHop/screens/product_detail.dart';
 import 'package:small_hurry/shopHop/utils/ShConstant.dart';
 import 'package:small_hurry/shopHop/utils/ShExtension.dart';
@@ -20,6 +22,8 @@ class CategorySubScreen extends StatefulWidget {
 class _CategorySubScreenState extends State<CategorySubScreen> with TickerProviderStateMixin {
 
   List<ShCategory> list = [];
+  List<CategorySubCategory> categories = [];
+  bool isLoading = true;
   List<String> banners = [];
   List<ShProduct> newestProducts = [];
   List<ShProduct> featuredProducts = [];
@@ -63,6 +67,13 @@ class _CategorySubScreenState extends State<CategorySubScreen> with TickerProvid
     });
   }
 
+  loadCategories() async {
+    categories = await getCategories();
+    if(categories.isNotEmpty) {
+      isLoading = false;
+    }
+  }
+
   @override
   void setState(fn) {
     if (mounted) super.setState(fn);
@@ -100,7 +111,8 @@ class _CategorySubScreenState extends State<CategorySubScreen> with TickerProvid
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Container(
-                      color: Theme.of(context).cardColor,
+                      height: 50,
+                      color: appLight_bitter_lemon, //Theme.of(context).cardColor,
                       child: TabBar(
                             labelPadding: const EdgeInsets.only(left: 20, right: 20),
                             controller: _tabController,

@@ -120,9 +120,12 @@ class _ProductDetailState extends State<ProductDetail> {
                         },
                       ),
                     ),
-                    Card(
+                    Container(
                       color: appColorPrimary,
-                      child: Text('2', style: TextStyle(color: Colors.white)),
+                      child: Card(
+                        color: appColorPrimary,
+                        child: Text('2', style: TextStyle(color: Colors.white)),
+                      ),
                     ),
                     Card(
                       semanticContainer: true,
@@ -130,7 +133,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         highlightColor: appLayout_background,
                         focusColor: appLayout_background,
                         icon: Icon(
-                          Icons.add,
+                          Icons.remove,
                         ),
                         onPressed: () {
                           //statements
