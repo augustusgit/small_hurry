@@ -93,7 +93,7 @@ class ProductHorizontalList extends StatelessWidget {
 }
 
 Widget networkImage(String image, {double? aWidth, double? aHeight, var fit = BoxFit.fill}) {
-  return Image.asset(image, width: aWidth, height: aHeight, fit: BoxFit.fill);
+  return Image.network(image, width: aWidth, height: aHeight, fit: BoxFit.fill);
 }
 
 Widget checkbox(String title, bool? boolValue) {

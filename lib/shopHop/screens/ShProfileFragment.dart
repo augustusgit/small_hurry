@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:small_hurry/main/utils/AppColors.dart';
 import 'package:small_hurry/main/utils/AppWidget.dart';
 import 'package:small_hurry/shopHop/utils/ShColors.dart';
 import 'package:small_hurry/shopHop/utils/ShConstant.dart';
@@ -25,13 +26,13 @@ class ShProfileFragmentState extends State<ShProfileFragment> {
     return Scaffold(
       body: SingleChildScrollView(
         // child: Center(child: Text("Coming Soon", style: TextStyle(fontWeight: FontWeight.w900),)),
-        child: Padding(
-          padding: const EdgeInsets.all(spacing_standard_new),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+              color: appColorPrimary,
+              child: Center(
                 child: Stack(
                   alignment: Alignment.bottomRight,
                   children: <Widget>[
@@ -63,127 +64,106 @@ class ShProfileFragmentState extends State<ShProfileFragment> {
                         color: sh_colorPrimary,
                         size: 16,
                       ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Expanded(
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        autofocus: false,
-                        controller: firstNameCont,
-                        textCapitalization: TextCapitalization.words,
-                        style: TextStyle(color: sh_textColorPrimary, fontFamily: fontRegular, fontSize: textSizeMedium),
-                        decoration: InputDecoration(
-                            filled: false,
-                            hintText: sh_hint_first_name,
-                            hintStyle: TextStyle(color: sh_textColorSecondary, fontFamily: fontRegular, fontSize: textSizeMedium),
-                            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: Colors.grey.withOpacity(0.5), width: 0.5)),
-                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: Colors.grey.withOpacity(0.5), width: 0))),
-                      ),
                     ),
                     SizedBox(
-                      width: spacing_standard_new,
+                      height: 10,
                     ),
-                    Expanded(
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        autofocus: false,
-                        controller: lastNameCont,
-                        textCapitalization: TextCapitalization.words,
-                        style: TextStyle(color: sh_textColorPrimary, fontFamily: fontRegular, fontSize: textSizeMedium),
-                        decoration: InputDecoration(
-                            filled: false,
-                            hintText: sh_hint_last_name,
-                            hintStyle: TextStyle(color: sh_textColorSecondary, fontFamily: fontRegular, fontSize: textSizeMedium),
-                            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: Colors.grey.withOpacity(0.5), width: 0.5)),
-                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: Colors.grey.withOpacity(0.5), width: 0))),
-                      ),
-                    ),
+
                   ],
                 ),
               ),
-              SizedBox(height: spacing_standard_new),
-              SizedBox(
-                width: double.infinity,
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-                  decoration: BoxDecoration(border: Border.all(color: Colors.grey.withOpacity(0.3), width: 1), borderRadius: BorderRadius.all(Radius.circular(32.0))),
-                  child: DropdownButton<String>(
-                    underline: SizedBox(),
-                    isExpanded: true,
-                    items: <String>["Male", "Female", "Other"].map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: text(value, textColor: sh_textColorPrimary, fontSize: textSizeMedium, fontFamily: fontRegular),
-                      );
-                    }).toList(),
-                    //hint:Text(selectedValue),
-                    value: selectedValue,
-                    onChanged: (newVal) {
-                      setState(() {
-                        selectedValue = newVal;
-                      });
-                    },
+            ),
+            //
+            Stack(
+              overflow: Overflow.visible,
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 80,
+                  // color: appColorPrimary,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(bottomRight: Radius.circular(35.0),),
+                    color: appColorPrimary,
+                  ),
+                  child: Center(child: Column(
+                    children: [
+                      Text('Oluseyi Famade', style: TextStyle(fontWeight: FontWeight.bold, color: appColorPrimaryLight),),
+                      SizedBox(height: 5,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text('080683374534', style: TextStyle(fontWeight: FontWeight.normal, color: appColorPrimaryLight),),
+                            Text('|', style: TextStyle(fontWeight: FontWeight.bold, color: appColorPrimaryLight),),
+                            Text('famadeoluseyi@gmail.com', style: TextStyle(fontWeight: FontWeight.normal, color: appColorPrimaryLight),),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )),
+
+                ),
+
+                Center(
+                  child: Container(
+                    padding: EdgeInsets.all(spacing_standard),
+                    margin: EdgeInsets.only(top: 55.00,),
+                    decoration: BoxDecoration(shape: BoxShape.circle, color: sh_white, border: Border.all(color: sh_colorPrimary, width: 3)),
+                    child: Icon(
+                      Icons.mode_edit,
+                      color: sh_colorPrimary,
+                      size: 16,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: spacing_standard_new),
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                autofocus: false,
-                controller: emailCont,
-                textCapitalization: TextCapitalization.words,
-                style: TextStyle(color: sh_textColorPrimary, fontFamily: fontRegular, fontSize: textSizeMedium),
-                decoration: InputDecoration(
-                    filled: false,
-                    hintText: sh_hint_Email,
-                    hintStyle: TextStyle(color: sh_textColorSecondary, fontFamily: fontRegular, fontSize: textSizeMedium),
-                    contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: Colors.grey.withOpacity(0.5), width: 0.5)),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(color: Colors.grey.withOpacity(0.5), width: 0))),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                // height: double.infinity,
-                child: MaterialButton(
-                  padding: EdgeInsets.all(spacing_standard),
-                  child: text(sh_lbl_save_profile, fontSize: textSizeNormal, fontFamily: fontMedium, textColor: sh_white),
-                  textColor: sh_white,
-                  shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(40.0)),
-                  color: sh_colorPrimary,
-                  onPressed: () => {},
-                ),
-              ),
-              SizedBox(
-                height: spacing_standard_new,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                // height: double.infinity,
-                child: MaterialButton(
-                  padding: EdgeInsets.all(spacing_standard),
-                  child: text(sh_lbl_change_pswd, fontSize: textSizeNormal, fontFamily: fontMedium, textColor: sh_colorPrimary),
-                  textColor: sh_white,
-                  shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(40.0), side: BorderSide(color: sh_colorPrimary, width: 1)),
-                  color: sh_white,
-                  onPressed: () => {},
-                ),
-              )
-            ],
-          ),
+              ],
+            ),
+
+
+
+            ListTile(
+                leading: const Icon(Icons.shopping_basket),
+                title: const Text("My Orders", style: TextStyle(fontWeight: FontWeight.bold),),
+                onTap: () => print("My Orders")
+            ),
+            ListTile(
+                leading: const Icon(Icons.location_on_outlined),
+                title: const Text("Manage Address", style: TextStyle(fontWeight: FontWeight.bold),),
+                onTap: () => print("Manage Address")
+            ),
+            ListTile(
+                leading: const Icon(Icons.monitor_heart_rounded),
+                title: const Text("Wishlist", style: TextStyle(fontWeight: FontWeight.bold),),
+                onTap: () => print("Wishlist")
+            ),
+            ListTile(
+                leading: const Icon(Icons.doorbell_outlined),
+                title: const Text("Notification", style: TextStyle(fontWeight: FontWeight.bold),),
+                onTap: () => print("Notification")
+            ),
+            const Divider(
+              height: 10,
+              thickness: 2,
+              color: Colors.blueGrey,
+            ),
+
+            ListTile(
+                leading: const Icon(Icons.live_help_sharp),
+                title: const Text("Help", style: TextStyle(fontWeight: FontWeight.bold),),
+                onTap: () => print("Help")
+            ),
+            ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text("Change Password", style: TextStyle(fontWeight: FontWeight.bold),),
+                onTap: () => print("Change password")
+            ),
+            ListTile(
+                leading: const Icon(Icons.logout),
+                title: const Text("Logout", style: TextStyle(fontWeight: FontWeight.bold),),
+                onTap: () => print("Logout")
+            ),
+          ],
         ),
       ),
     );

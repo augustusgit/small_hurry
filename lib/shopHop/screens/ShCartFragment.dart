@@ -5,7 +5,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:small_hurry/main/utils/AppColors.dart';
 import 'package:small_hurry/main/utils/AppWidget.dart';
 import 'package:small_hurry/shopHop/models/ShProduct.dart';
-import 'package:small_hurry/shopHop/screens/ShOrderSummaryScreen.dart';
+import 'package:small_hurry/shopHop/screens/checkout_screen.dart';
 import 'package:small_hurry/shopHop/utils/ShColors.dart';
 import 'package:small_hurry/shopHop/utils/ShConstant.dart';
 import 'package:small_hurry/shopHop/utils/ShExtension.dart';
@@ -89,7 +89,7 @@ class ShCartFragmentState extends State<ShCartFragment> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 16.0, top: spacing_control),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: <Widget>[
 
                                       Card(
@@ -107,6 +107,8 @@ class ShCartFragmentState extends State<ShCartFragment> {
                                         ),
                                       ),
                                       Container(
+                                        width: 30,
+                                        height: 30,
                                         color: appColorPrimary,
                                         child: Card(
                                           color: appColorPrimary,
@@ -261,7 +263,7 @@ class ShCartFragmentState extends State<ShCartFragment> {
                 height: double.infinity,
               ),
               onTap: () {
-                // ShOrderSummaryScreen().launch(context);
+                CheckoutScreen().launch(context);
               },
             ),
           ),

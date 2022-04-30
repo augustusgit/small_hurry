@@ -8,6 +8,7 @@ import 'package:small_hurry/shopHop/screens/ShHomeScreen.dart';
 import 'package:small_hurry/shopHop/screens/Shonboarding_screen.dart';
 import 'package:small_hurry/shopHop/screens/category_product_screen.dart';
 import 'package:small_hurry/shopHop/screens/category_subcategory_screen.dart';
+import 'package:small_hurry/shopHop/screens/checkout_screen.dart';
 import 'package:small_hurry/shopHop/screens/product_detail.dart';
 import 'package:small_hurry/shopHop/utils/ShColors.dart';
 import 'package:small_hurry/shopHop/utils/ShImages.dart';
@@ -34,11 +35,11 @@ class ShSplashScreenState extends State<ShSplashScreen> {
   }
 
   goOnBoard(){
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ShOnboardingScreen()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => CheckoutScreen()));
   }
 
   goHome(){
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ShHomeScreen()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => CheckoutScreen()));
   }
 
   void navigationPage() async {

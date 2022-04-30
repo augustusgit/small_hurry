@@ -128,6 +128,24 @@ Future<Response> getRequestWithToken(String endPoint) async {
   }
 }
 
+// Future handleResponse(Response response) async {
+//   if (response.statusCode.isSuccessful()) {
+//     // Map<String, dynamic> userdata = Map<String, dynamic>.from(json.decode(response.body));
+//     return jsonDecode(response.body) as List;
+//     // return userdata;
+//   } else {
+//     if (response.body.isJson()) {
+//       throw jsonDecode(response.body);
+//     } else {
+//       if (!await isNetworkAvailable()) {
+//         throw noInternetMsg;
+//       } else {
+//         throw 'Please try again';
+//       }
+//     }
+//   }
+// }
+
 Future handleResponse(Response response) async {
   if (response.statusCode.isSuccessful()) {
     return jsonDecode(response.body);

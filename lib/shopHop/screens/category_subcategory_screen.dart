@@ -3,14 +3,12 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:small_hurry/integrations/network/rest_apis.dart';
 import 'package:small_hurry/main/utils/AppColors.dart';
 import 'package:small_hurry/main/utils/AppWidget.dart';
-import 'package:small_hurry/shopHop/models/ShCategory.dart';
-import 'package:small_hurry/shopHop/models/ShProduct.dart';
 import 'package:small_hurry/shopHop/models/category_sub_category.dart';
+import 'package:small_hurry/shopHop/models/product.dart';
 import 'package:small_hurry/shopHop/screens/product_detail.dart';
-import 'package:small_hurry/shopHop/utils/ShConstant.dart';
-import 'package:small_hurry/shopHop/utils/ShExtension.dart';
 import 'package:small_hurry/shopHop/utils/ShWidget.dart';
-import 'package:small_hurry/shopHop/utils/ShColors.dart';
+
+import '../utils/ShConstant.dart';
 
 class CategorySubScreen extends StatefulWidget {
   const CategorySubScreen({Key? key}) : super(key: key);
@@ -21,78 +19,54 @@ class CategorySubScreen extends StatefulWidget {
 
 class _CategorySubScreenState extends State<CategorySubScreen> with TickerProviderStateMixin {
 
-  List<ShCategory> list = [];
-  List<CategorySubCategory> categories = [];
+  CategorySubCategory? categories;
+  Product? products;
   bool isLoading = true;
-  List<String> banners = [];
-  List<ShProduct> newestProducts = [];
-  List<ShProduct> featuredProducts = [];
   var position = 0;
-  var colors = [sh_cat_1, sh_cat_2, sh_cat_3, sh_cat_4, sh_cat_5, sh_cat_3, sh_cat_1,];
 
   @override
   void initState() {
     super.initState();
-    fetchData();
+    loadCategories();
+    loadProducts();
   }
 
 
-  fetchData() async {
-    loadCategory().then((categories) {
-      setState(() {
-        list.clear();
-        list.addAll(categories);
-      });
-    }).catchError((error) {
-      toast(error);
-    });
-    List<ShProduct> products = await loadProducts();
-    List<ShProduct> featured = [];
-    products.forEach((product) {
-      if (product.featured!) {
-        featured.add(product);
-      }
-    });
-    List<String> banner = [];
-    for (var i = 1; i < 4; i++) {
-      banner.add("images/shophop/img/products/banners/b" + i.toString() + ".png");
-    }
-    setState(() {
-      newestProducts.clear();
-      featuredProducts.clear();
-      banners.clear();
-      banners.addAll(banner);
-      newestProducts.addAll(products);
-      featuredProducts.addAll(featured);
-    });
-  }
 
   loadCategories() async {
-    categories = await getCategories();
-    if(categories.isNotEmpty) {
-      isLoading = false;
-    }
+    CategorySubCategory category = await getCategories();
+
+    setState(() {
+      categories = category;
+      if(categories != null) {
+        isLoading = false;
+      }
+    });
+    print(category);
   }
 
-  @override
-  void setState(fn) {
-    if (mounted) super.setState(fn);
+  loadProducts() async {
+    Product product = await getProducts();
+
+    setState(() {
+      products = product;
+      if(products != null) {
+        isLoading = false;
+      }
+    });
+    print(product);
   }
 
-  List title=[
-    {"text": "Places"},
-    {"text": "Inspiraction"},
-    {"text": "Emotion"},
-    {"text": "Pride"},
-    {"text": "Grocery"},
-    {"text": "Workshop"},
-    {"text": "Wisdom"}
-  ];
+  // @override
+  // void setState(fn) {
+  //   if (mounted) super.setState(fn);
+  // }
 
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: title.length, vsync: this);
+    TabController _tabController = TabController(length: categories != null ? categories!.data!.length : 15, vsync: this);
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: customAppBar(
         context,
         "Small Hurry",
@@ -102,7 +76,7 @@ class _CategorySubScreenState extends State<CategorySubScreen> with TickerProvid
           cartIcon(context, 5, iconColor: appWhite),
         ],
       ),
-      body: SingleChildScrollView(
+      body: categories != null ? SingleChildScrollView(
         child: Column(
           children: <Widget> [
             Row(
@@ -123,7 +97,7 @@ class _CategorySubScreenState extends State<CategorySubScreen> with TickerProvid
                             indicatorSize: TabBarIndicatorSize.label,
                             // indicator:
                             // CircleTabIndicator(color: appColorPrimary, radius: 4),
-                            tabs: List.generate(title.length, (index) => _HurryTabWidget(title: title[index]['text']))
+                            tabs: List.generate(categories!.data!.length, (index) => _HurryTabWidget(title: categories!.data![index].category!.name!)),
 
                         ),
                     ),
@@ -143,15 +117,15 @@ class _CategorySubScreenState extends State<CategorySubScreen> with TickerProvid
                     // color: appLayout_background,
                     child: TabBarView(
                       controller: _tabController,
-                      children: List.generate(title.length, (index) => LoadSubCategory(categoryid: "57",)),
+                      children: List.generate(categories!.data!.length, (index) => LoadSubCategory(key: ObjectKey(index),subCategoryObj: categories!.data![index].subCategories!), growable: true),
                     ),
                   ),
                 ),)
               ],
             ),
 
-            GridView.builder(
-              itemCount: list.length,
+            products != null ? GridView.builder(
+              itemCount: 1,
               shrinkWrap: true,
               padding: EdgeInsets.only(left: 11, right: 11, top: spacing_standard_new),
               physics: BouncingScrollPhysics(),
@@ -165,7 +139,7 @@ class _CategorySubScreenState extends State<CategorySubScreen> with TickerProvid
                   children: [
                     InkWell(
                       onTap: () {
-                         Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetail()));
+                         Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductDetail()));
                       },
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,20 +152,20 @@ class _CategorySubScreenState extends State<CategorySubScreen> with TickerProvid
                               color: Colors.black12,
                             ),
                           ),
-                                child: networkImage(list[index].image!, aWidth: double.infinity, fit: BoxFit.cover).cornerRadiusWithClipRRect(8)),
+                                child: networkImage(products!.data!.defaultImage!, aWidth: double.infinity, fit: BoxFit.cover).cornerRadiusWithClipRRect(8)),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget> [
-                              itemTitle(context, "₦867", textColor: Theme.of(context).highlightColor, fontSize: 14.0, lineThrough: true),
-                              itemTitle(context, "₦456"),
+                              itemTitle(context, "₦${products!.data!.originalPrice}", textColor: Theme.of(context).highlightColor, fontSize: 10.0, lineThrough: true),
+                              itemTitle(context, "₦${products!.data!.realPrice}", fontSize: 12.0,),
                             ],
                           ),
-                          itemSubTitle(context, list[index].name, colorThird: true),
-                          const Text('200g', style: TextStyle(color: Colors.grey, fontSize: 10,),)
+                          itemSubTitle(context, products!.data!.productName, colorThird: true),
+                           Text(products!.data!.attributes!.first.attributeValName!, style: TextStyle(color: Colors.grey, fontSize: 10,),)
                         ],
                       ),
-                    ).paddingOnly(left: 5, right: 5, bottom: spacing_standard_new),
+                    ).paddingOnly(left: 5, bottom: spacing_standard_new),
                     // Positioned(
                     //   top: 0,
                     //   right: 0,
@@ -217,47 +191,27 @@ class _CategorySubScreenState extends State<CategorySubScreen> with TickerProvid
                   ],
                 );
               },
-            ),
+            ) : const Center(child: CircularProgressIndicator(color: appColorPrimary)),
 
           ],
         ),
-      ),
+      ) : const Center(child: CircularProgressIndicator(color: appColorPrimary)),
     );
   }
 
-}
-
-class CircleTabIndicator extends Decoration {
-  final Color color;
-  double radius;
-
-  CircleTabIndicator({required Color this.color, required double this.radius});
-  //override createBoxPainter
-
   @override
-  BoxPainter createBoxPainter([VoidCallback? onChanged]) {
-    return _CirclePainter(color: color, radius: radius);
+  void dispose() {
+
+    // TODO: implement dispose
+    super.dispose();
   }
 
-}
 
-class _CirclePainter extends BoxPainter {
-
-  final double radius;
-  late Color color;
-
-  _CirclePainter({required this.color, required this.radius});
-
-//override paint
-  @override
-  void paint(Canvas canvas, Offset offset, ImageConfiguration cfg) {
-      late Paint _paint;
-      _paint = Paint()..color = color;
-      _paint = _paint..isAntiAlias = true;
-      final Offset circleOffset = offset + Offset(cfg.size!.width / 2, cfg.size!.height - radius);
-      canvas.drawCircle(circleOffset, radius, _paint);
+  void _onTabChanged() {
+    setState(() { });
   }
 }
+
 
 
 class _HurryTabWidget extends StatelessWidget {
@@ -270,15 +224,15 @@ class _HurryTabWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text(title, style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold, fontSize: 13),),
+      child: Text(title, style: const TextStyle(color: Colors.white70, fontWeight: FontWeight.bold, fontSize: 13),),
     );
   }
 }
 
 class LoadSubCategory extends StatefulWidget {
-  LoadSubCategory({Key? key, required this.categoryid}) : super(key: key);
+  const LoadSubCategory({required Key key, required this.subCategoryObj}) : super(key: key);
 
-  String categoryid;
+  final List<SubCategories> subCategoryObj;
 
   @override
   _LoadSubCategoryState createState() => _LoadSubCategoryState();
@@ -287,15 +241,6 @@ class LoadSubCategory extends StatefulWidget {
 class _LoadSubCategoryState extends State<LoadSubCategory> {
 
   int _selectedIndex = 0;
-  List info=[
-    {"img": "Club"},
-    {"img": "room"},
-    {"img": "BBQ"},
-    {"img": "Love"},
-    {"img": "Hotels"},
-    {"img": "Wines"},
-    {"img": "Phones"},
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -303,30 +248,33 @@ class _LoadSubCategoryState extends State<LoadSubCategory> {
       children: [
         Expanded(
           child: ListView.builder(
-                    itemCount: info.length,
+                    itemCount: widget.subCategoryObj.length,
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
                     itemBuilder: (context, index){
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 3, 10, 10),
-                        child: Container(
-                          width: 80,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: Center(
-                            child: ListTile(
-                              title: Text(info[index]['img']),
-                              selectedTileColor:Theme.of(context).primaryColor,
-                              selectedColor: Theme.of(context).dividerColor,
-                              minLeadingWidth: double.maxFinite,
-                              selected: index == _selectedIndex,
-                              onTap: () {
-                                setState(() {
-                                  _selectedIndex = index;
-                                });
-                              },
+                      return Container(
+                        alignment: Alignment.center,
+                        width: 120.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Center(
+                          child: ListTile(
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(widget.subCategoryObj[index].name!),
+                              ],
                             ),
+                            selectedTileColor:Theme.of(context).primaryColor,
+                            selectedColor: Theme.of(context).dividerColor,
+                            minLeadingWidth: double.maxFinite,
+                            selected: index == _selectedIndex,
+                            onTap: () {
+                              setState(() {
+                                _selectedIndex = index;
+                              });
+                            },
                           ),
                         ),
                       );

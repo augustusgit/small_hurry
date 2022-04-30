@@ -141,7 +141,7 @@ class _ShOnboardingScreenState extends State<ShOnboardingScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           text(sh_lbl_continue_without_login),
-                          InkWell(
+                          GestureDetector(
                             onTap: () {
                               ShHomeScreen().launch(context);
                             },
@@ -169,20 +169,20 @@ class _ShOnboardingScreenState extends State<ShOnboardingScreen> {
                         ),
                       ),
                       SizedBox(height: spacing_standard_new),
-                      InkWell(
-                        onTap: () {
-                          ShSignIn().launch(context);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            text(sh_lbl_already_have_a_account),
-                            Padding(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          text(sh_lbl_already_have_a_account),
+                          GestureDetector(
+                            onTap: () {
+                              ShSignIn().launch(context);
+                            },
+                            child: Padding(
                               padding: const EdgeInsets.only(left: 8.0),
                               child: text(sh_lbl_sign_in, textColor: sh_colorPrimaryDark, fontFamily: fontBold),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       )
                     ],
                   ),

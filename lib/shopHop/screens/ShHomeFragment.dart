@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:small_hurry/integrations/network/rest_apis.dart';
 import 'package:small_hurry/main/utils/AppColors.dart';
 import 'package:small_hurry/main/utils/AppWidget.dart';
 import 'package:small_hurry/shopHop/models/ShCategory.dart';
 import 'package:small_hurry/shopHop/models/ShProduct.dart';
+import 'package:small_hurry/shopHop/models/category_sub_category.dart';
 import 'package:small_hurry/shopHop/screens/ShSearchScreen.dart';
 import 'package:small_hurry/shopHop/screens/category_subcategory_screen.dart';
 import 'package:small_hurry/shopHop/utils/ShColors.dart';
@@ -21,10 +23,10 @@ class ShHomeFragment extends StatefulWidget {
 }
 
 class ShHomeFragmentState extends State<ShHomeFragment> {
-  List<ShCategory> list = [];
+  // List<ShCategory> list = [];
   List<String> banners = [];
-  List<ShProduct> newestProducts = [];
-  List<ShProduct> featuredProducts = [];
+  CategorySubCategory? categories;
+  bool isLoading = true;
   var position = 0;
   var colors = [sh_cat_1, sh_cat_2, sh_cat_3, sh_cat_4, sh_cat_5, sh_cat_3, sh_cat_1,];
   final PageController _controller = PageController(initialPage: 0);
@@ -33,39 +35,30 @@ class ShHomeFragmentState extends State<ShHomeFragment> {
   void initState() {
     super.initState();
     fetchData();
+    loadCategories();
   }
 
   fetchData() async {
-    loadCategory().then((categories) {
-      setState(() {
-        list.clear();
-        list.addAll(categories);
-      });
-    }).catchError((error) {
-      toast(error);
-    });
-    List<ShProduct> products = await loadProducts();
-    List<ShProduct> featured = [];
-    products.forEach((product) {
-      if (product.featured!) {
-        featured.add(product);
-      }
-    });
     List<String> banner = [];
     for (var i = 1; i < 4; i++) {
       banner.add("images/shophop/img/products/banners/b" + i.toString() + ".png");
     }
     setState(() {
-      newestProducts.clear();
-      featuredProducts.clear();
       banners.clear();
       banners.addAll(banner);
-      newestProducts.addAll(products);
-      featuredProducts.addAll(featured);
     });
   }
 
-  fetchCategories()async{
+  loadCategories() async {
+    CategorySubCategory category = await getCategories();
+
+    setState(() {
+      categories = category;
+      if(categories != null) {
+        isLoading = false;
+      }
+    });
+    print(category);
 
   }
 
@@ -80,7 +73,8 @@ class ShHomeFragmentState extends State<ShHomeFragment> {
     var height = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: list.isNotEmpty ? 
+      backgroundColor: Colors.white,
+      body: categories != null ?
       SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.only(bottom: 30),
@@ -157,7 +151,7 @@ class ShHomeFragmentState extends State<ShHomeFragment> {
                     // }),
                   Container(
                     child: GridView.builder(
-                      itemCount: list.length,
+                      itemCount: categories!.data!.length,
                       shrinkWrap: true,
                       padding: EdgeInsets.only(left: 11, right: 11, top: spacing_standard_new),
                       physics: BouncingScrollPhysics(),
@@ -174,9 +168,9 @@ class ShHomeFragmentState extends State<ShHomeFragment> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Expanded(
-                                child: networkImage(list[index].image!, aWidth: double.infinity, fit: BoxFit.cover).cornerRadiusWithClipRRect(8),
+                                child: networkImage(categories!.data![index].category!.catImgUrl!, aWidth: double.infinity, fit: BoxFit.cover).cornerRadiusWithClipRRect(8),
                               ),
-                              itemTitle(context, list[index].name),
+                              itemTitle(context, categories!.data![index].category!.name!),
                               // itemSubTitle(context, "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.", isLongText: false),
                             ],
                           ),
@@ -189,7 +183,7 @@ class ShHomeFragmentState extends State<ShHomeFragment> {
                 ),
               ),
             )
-          : Container(),
+          : Center(child: CircularProgressIndicator(color: appColorPrimary)),
     );
   }
 }
